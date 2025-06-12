@@ -1,0 +1,10 @@
+numpy
+pandas
+requests
+logging
+yfinance
+pandas_datareader
+TA-Lib
+plotly
+matplotlib
+seaborn
