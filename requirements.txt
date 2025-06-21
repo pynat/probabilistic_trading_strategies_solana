@@ -8,3 +8,4 @@ TA-Lib
 plotly
 matplotlib
 seaborn
+statsmodels
