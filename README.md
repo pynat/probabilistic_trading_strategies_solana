@@ -1,4 +1,4 @@
-**🦄 Looking for Work:** Quantitative Research | Algorithmic Trading | Data-Driven Strategy Development
+**🦄 Looking for Work:** Quantitative Research | Algorithmic Trading | Data-Driven Strategy Development | Data Science
 # Solana Trading Strategy: Statistical and Machine Learning Approach
 
 ## Executive Summary
