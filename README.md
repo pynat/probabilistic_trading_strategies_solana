@@ -262,7 +262,7 @@ Long Signals: 15 | Exit Signals: 232
 Sharpe Ratio: 0.88
 Annualized Volatility: 22.96%
 Max Drawdown: -9.35%
-![Equity Curve](images/beeswarm_xgboost.png)
+![Equity Curve](images/equity_curve.png.png)
 
 
 The XGBoost-based long-only strategy yielded a 19.00% return over the 12-month period, with a Sharpe ratio of 0.88 and a maximum drawdown of -9.35%.
