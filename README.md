@@ -66,12 +66,9 @@ Key insights:
 * Strategic Implications:
 
 * Dynamic position sizing based on current volatility regime
-* Fat tail risk models instead of normal distribution assumptions
-* Volatility based strategy switching (conservative in high-vol, aggressive in low-vol periods)
-* Volatility (<3%): bigger positions
-* Volatilität (>6%): smaller positions
+* Volatility based strategy, vol (<3%): bigger positions, vol(>6%): smaller positions
 * Trading vol breakouts from <3% to >5% after that bigger movements tend to follow
-* Contrarian position nach 8% move
+* Contrarian position after 8% move
 
     
 * Correlation:   
@@ -89,8 +86,8 @@ Key insights:
 
 ![Bayes](images/bayes.png)
 
-# signal combinations: tests combinations of best performing bullish/bearish indicators
-# trading signal generation: filters significant indicators based on minimum lift and frequency thresholds
+* signal combinations: tests combinations of best performing bullish/bearish indicators
+* trading signal generation: filters significant indicators based on minimum lift and frequency thresholds
 
 ```bash
 === BAYES ANALYSIS FOR ALL INDICATORS ===
@@ -122,9 +119,8 @@ P(Up-Day | vol_regime = 2) = 0.500 (n=86)
 * Volume expansion: 44.4% up probability (-12.6% lift), occurs 7.5% of time -> expanding volume without direction is bearish
 * Extreme up: 44.4% up probability (-12.6% lift), occurs 2.5% of time -> overbought conditions lead to pullbacks
 
-
-
-
+   
+   
 
 ### POISSON EVENTS ANALYSIS  
    
