@@ -256,12 +256,14 @@ Performed feature selection using SHAP values. The most important features for t
 
 #### Simple Strategy Based on XGBOOST
 
-Final Capital: $11899.60
-Total Return: 19.00%
-Long Signals: 15 | Exit Signals: 232
-Sharpe Ratio: 0.88
-Annualized Volatility: 22.96%
-Max Drawdown: -9.35%
+```bash 
+Final Capital: $11899.60    
+Total Return: 19.00%     
+Long Signals: 15 | Exit Signals: 232     
+Sharpe Ratio: 0.88    
+Annualized Volatility: 22.96%    
+Max Drawdown: -9.35%   
+```  
 ![Equity Curve](images/equity_curve.png.png)
 
 
@@ -274,52 +276,37 @@ No transaction costs or slippage were included.
 
 ### Regime Aware Strategy with Backtest on XGBOOST
 
+```bash 
+Return: +19.95%
+Sharpe Ratio: 3.27
+Max Drawdown: -9.83%
+Trades: 9
+Win Rate: 55.6%
+Avg Return per Trade: +2.30%
+```
 
 Signals: 15 entries identified, 232 exit signals processed
-
 Indicators used: vol_regime, prediction_proba, rsi, breakout_high_7d
-
 Fixed Position Sizing (1.00x per trade)
 
-Return: +19.95%
+### Volatility-Regime-Based Position Sizing 
 
-Sharpe Ratio: 3.27
-
-Max Drawdown: -9.83%
-
-Trades: 9
-
-Win Rate: 55.6%
-
-Avg Return per Trade: +2.30%
-
-### Volatility-Regime-Based Position Sizing (0.50x–1.00x)
-
+```bash 
 Return: +20.03%
-
 Sharpe Ratio: 3.21
-
 Max Drawdown: -7.71%
-
 Trades: 9
-
 Win Rate: 66.7%
-
 Avg Return per Trade: +2.45%
+```
 
-Key Observations
 
 Volatility-adjusted sizing led to slightly better risk-adjusted performance and lower drawdown.
 
-High conviction signals (prediction_proba ≈ 0.79) paired with regime awareness showed promising trade-offs.
+High conviction signals paired with regime awareness showed promising trade-offs.
 
-Strategy adapts position sizes based on volatility regime:
 
-LOW_VOL → 1.00x
 
-MID_VOL → 0.75x
-
-HIGH_VOL → 0.50x
 
 
 
