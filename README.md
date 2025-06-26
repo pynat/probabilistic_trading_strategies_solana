@@ -1,27 +1,218 @@
 # Solana Trading Strategy: Statistical and Machine Learning Approach
-## Overview
-This project demonstrates a full data science and quant workflow applied to the Solana (SOL) cryptocurrency. It includes data acquisition, statistical analysis, probability modeling, feature engineering, and the development of rule-based and machine learning-based trading strategies.
+ 
 
-The goal is to explore the dynamics of daily SOL price movements and to build data-driven strategies that can potentially outperform naive benchmarks.
+## Overview
+This project is about statistical anlysis and trading strategies for the cryptocurrency Solana (SOL). It includes data acquisition, creating new features, tatistical analysis, probability modeling, feature engineering, and the development of rule-based and machine learning-based trading strategies.     
+I fitted different probability distributions (Normal, Exponential, Gamma, Weibull, Poisson) and Bayes to daily return data.
+
+The goal is to explore the dynamics of daily SOL price movements and to build strategies.  
 
 # Project Steps
-*Data Collection*
+   
+### Data Collection
 
-Retrieved 1-day OHLCV data for Solana (SOL/USDT) over the past 365 days using the Binance API.
+* Retrieved 1 day OHLCV data for Solana (SOL/USDT) over the past 365 days using the Binance API   
 
-Data Cleaning & Preprocessing
+* Data Cleaning & Preprocessing 
 
-Removed missing values and handled irregularities.
+* Feature Engineering
 
-Calculated daily returns and log-returns.
 
-Exploratory Data Analysis (EDA)
+### Exploratory Data Analysis (EDA)
 
-Analyzed distribution of returns and autocorrelation.
+```bash
+Mean return: 0.14
+Median return: 0.04
+Volatility: 4.58
+Skewness: 0.44
+Kurtosis: 3.78
+Daily Sharpe: 0.03
+Annual Sharpe: 0.60
 
-Examined correlations between price and volume-based features.
+Q1 (25%): -2.52
+Q3 (75%): 2.63
+VaR 95%: -6.70%
+VaR 99%: -8.93%
+```
+* SOL shows positive expected returns (0.14% daily) but with high volatility (4.58%)
+* Distribution is right-skewed with fat tails, more extreme moves
+* Significant downside risk: 5% chance of losing >6.7% in a single day
+* Decent risk-adjusted returns (Sharpe 0.60) 
+* Strong outliers
 
-Probability Distribution Modeling
+Calculated daily returns: 
+![Correlation Return](images/correlation_return.png)
+
+![Return Distribution](images/return_distribution.png)
+
+Key insights:    
+
+* Returns show normal distribution in the center but with significant fat tails 
+* Extreme price movements occur much more frequently than normal distribution would predict
+
+* Q-Q Plot: 
+* Deviation from the red line at extremes confirms fat-tail behavior
+* Standard risk models will consistently underestimate actual risk exposure
+
+* Box Plot: 
+* Numerous outliers beyond typical range, both positive and negative
+
+* Volatility Clustering: 
+* Low volatility periods followed by high volatility spikes, particularly visible in early 2025
+* High volatility periods cluster together
+* Quiet phases (3-4%) alternating with turbulent periods (up to 9%)
+* Volatility forecasting models could be highly valuable
+
+* Strategic Implications:
+
+* Dynamic position sizing based on current volatility regime
+* Fat tail risk models instead of normal distribution assumptions
+* Volatility based strategy switching (conservative in high-vol, aggressive in low-vol periods)
+* Volatility (<3%): bigger positions
+* Volatilität (>6%): smaller positions
+* Trading vol breakouts from <3% to >5% after that bigger movements tend to follow
+* Contrarian position nach 8% move
+
+    
+* Correlation:   
+
+![Indicator Correlation](images/indicator_correlation.png)
+
+
+
+### Bayes Indicator Analysis
+
+* Calculates p(up|signal) vs baseline probability for binary trading indicators
+* Performance metrics: calculactes lift percentage, signal frequency, and statistical significance for each indicator
+
+* heatmaps for probability, lift %, and frequency vs performance scatter plots
+
+![Bayes](images/bayes.png)
+
+# signal combinations: tests combinations of best performing bullish/bearish indicators
+# trading signal generation: filters significant indicators based on minimum lift and frequency thresholds
+
+```bash
+=== BAYES ANALYSIS FOR ALL INDICATORS ===
+Baseline P(Up-Day) = 0.508
+------------------------------------------------------------
+vol_expansion             | P(Up|Signal)=0.444 | Lift=-0.064 (-12.6%) | Freq=0.075 | 🔴 BEARISH
+volume_spike              | P(Up|Signal)=0.706 | Lift=+0.198 (+38.9%) | Freq=0.047 | 🟢 BULLISH
+breakout_signal           | P(Up|Signal)=0.333 | Lift=-0.175 (-34.4%) | Freq=0.008 | 🔴 BEARISH
+extreme_down              | P(Up|Signal)=0.600 | Lift=+0.092 (+18.0%) | Freq=0.014 | 🟢 BULLISH
+extreme_up                | P(Up|Signal)=0.444 | Lift=-0.064 (-12.6%) | Freq=0.025 | 🔴 BEARISH
+vol_regime_change         | P(Up|Signal)=0.447 | Lift=-0.061 (-12.1%) | Freq=0.236 | 🔴 BEARISH
+golden_cross_ema          | P(Up|Signal)=0.286 | Lift=-0.223 (-43.8%) | Freq=0.019 | 🔴 BEARISH
+death_cross_ema           | P(Up|Signal)=0.125 | Lift=-0.383 (-75.4%) | Freq=0.022 | 🔴 BEARISH
+breakout_high_7d          | P(Up|Signal)=0.545 | Lift=+0.037 (+7.3%) | Freq=0.122 | ⚪ NEUTRAL
+trend_alignment           | P(Up|Signal)=0.513 | Lift=+0.005 (+1.0%) | Freq=0.314 | ⚪ NEUTRAL
+extreme_reversal_setup    | P(Up|Signal)=0.333 | Lift=-0.175 (-34.4%) | Freq=0.008 | 🔴 BEARISH
+
+
+P(Up-Day | vol_regime = 0) = 0.598 (n=87)
+P(Up-Day | vol_regime = 1) = 0.471 (n=187)
+P(Up-Day | vol_regime = 2) = 0.500 (n=86)
+
+```
+
+* Findings:
+* Indicators are predominantly BEARISH, most signal market weakness 
+* Volume spike: 70.6% up probability (+38.9% lift), occurs 4.7% of time -> strong bullish indicator when unusual volume
+* Extreme down: 60% success rate (+18% lift) -> could be weighted heavier in strategy but very rare
+* Volume expansion: 44.4% up probability (-12.6% lift), occurs 7.5% of time -> expanding volume without direction is bearish
+* Extreme up: 44.4% up probability (-12.6% lift), occurs 2.5% of time -> overbought conditions lead to pullbacks
+
+
+
+
+
+### POISSON EVENTS ANALYSIS  
+   
+* How often do large moves happen:
+
+```bash
+POISSON EVENTS ANALYSIS
+----------------------------------------
+Weeks analyzed: 52
+Total big moves (>7%): 81
+Average big moves per week: 1.56
+Probability of 0 big moves in a week: 21.1%
+Probability of exactly 1 big move: 32.8%
+Probability of 2+ big moves in a week: 46.1%
+Probability of 4+ big moves in a week: 7.3%
+```
+
+   
+### EXPONENTIAL VOLATILITY ANALYSIS
+
+Expected daily fluctuation is 4.21%, with right-skewed distribution signaling most volatility is low, but large spikes do occur. Expected time between high-volatility days: ~5 trading days:   
+   
+```bash
+EXPONENTIAL VOLATILITY ANALYSIS
+----------------------------------------
+Volatility observations: 354
+Mean volatility: 4.20%
+Exponential lambda: 0.304
+High volatility threshold: 6.18%
+Probability of high volatility: 20.1%
+Probability of extreme volatility: 5.0%
+Expected days between high vol periods: 5.0
+```
+
+
+### WEIBULL DURATION OF VOLATILITY   
+     
+```bash   
+============================================================
+COMPREHENSIVE WEIBULL ANALYSIS FOR SOL
+============================================================
+WEIBULL VOLATILITY BURST DURATION ANALYSIS
+--------------------------------------------------
+Volatility bursts found: 23
+Average burst duration: 3.7 days
+Weibull shape parameter: 1.53
+Weibull scale parameter: 4.17
+Shape > 1: Increasing hazard rate (bursts tend to end quickly)
+Probability burst ends within 3 days: 45.4%
+Probability burst lasts >10 days: 2.2%
+TRADING INSIGHT: Volatility bursts typically end quickly
+   → Fade volatility spikes after 2-3 days
+
+WEIBULL EXTREME EVENT CLUSTERING ANALYSIS
+--------------------------------------------------
+Extreme events found: 36
+Average time between extremes: 9.0 days
+Weibull shape: 0.95
+Weibull scale: 8.72
+ CLUSTERING DETECTED: Extreme events come in clusters
+   → After one extreme event, expect another soon
+After extreme event, prob of another within 5 days: 44.6%
+Probability of >30 days without extreme event: 4.0%
+
+WEIBULL BREAKOUT SUSTAINABILITY ANALYSIS
+--------------------------------------------------
+Sustainable breakouts found: 11
+Average breakout duration: 2.5 days
+Weibull shape: 4.03
+Weibull scale: 2.80
+MOMENTUM FADES: Breakouts lose steam over time
+   → Take profits early in breakouts
+Probability breakout ends within 3 days: 73.2%
+Probability breakout extends >10 days: 0.0%
+Median breakout duration: 2.6 days
+STRATEGY: Set initial profit target around day 3
+
+============================================================
+WEIBULL INSIGHTS SUMMARY
+============================================================
+Volatility bursts typically end quickly - fade vol spikes
+Extreme events cluster - implement cooling-off periods
+Breakout momentum fades - take profits early
+```     
+
+
+### TRADING STRATEGY BASED ON INSIGHTS
+
 
 Fitted different probability distributions (Normal, Exponential, Gamma, Weibull, Poisson) to daily return data.
 
@@ -57,12 +248,16 @@ Some non-Gaussian distributions (e.g., Gamma, Weibull) fit the empirical returns
 
 The XGBoost model showed predictive value with selected features, especially during regime changes and volume spikes.
 
+Solana Data:      
+[Link to Solana Dataset](https://drive.google.com/file/d/1voYH8gYeAXWd2MIM7w4720hSbXBrOpdc/view?usp=sharing) 
+
+Caution:
+Backtest-Performance ≠ Live-Performance
+Overfitting-Risik
+Transactioncost, Slippage not included in Calculations
+
 Next Steps
-Extend the feature set with macro or on-chain indicators.
-
-Use time series models (e.g., ARIMA, GARCH) for volatility forecasting.
-
-Explore ensemble models or deep learning for signal generation.
+Test Strategies in Live Performance.
 
 About
 This repository is part of my data science & quant portfolio. My background combines financial knowledge with statistical modeling and Python-based machine learning. I am actively looking for opportunities in quantitative research, algorithmic trading, and data-driven strategy development.
