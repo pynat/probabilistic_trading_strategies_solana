@@ -1,12 +1,11 @@
-
-This repository is part of my data science & quant portfolio.  
-I am actively looking for opportunities in quantitative research, algorithmic trading, and data-driven strategy development.
-
+**🦄 Looking for Work:** Quantitative Research | Algorithmic Trading | Data-Driven Strategy Development
 # Solana Trading Strategy: Statistical and Machine Learning Approach
- 
+
+## Executive Summary
+Quantitative analysis of Solana using statistical modeling and machine learning. Developed profitable trading strategy achieving **79.2% annual return** and **3.54 Sharpe ratio** through Probability and Bayesian indicator analysis.
 
 ## Overview
-This project is about statistical anlysis and trading strategies for the cryptocurrency Solana (SOL). It includes data acquisition, creating new features, statistical analysis, probability modeling, feature engineering, and the development of rule-based and machine learning-based trading strategies.     
+This project is about statistical analysis and trading strategies for the cryptocurrency Solana (SOL). It includes data acquisition, creating new features, statistical analysis, probability modeling, feature engineering, and the development of rule-based and machine learning-based trading strategies.     
 I fitted different probability distributions (Normal, Exponential, Gamma, Weibull, Poisson) and Bayes to daily return data.
 
 The goal is to explore the dynamics of daily SOL price movements and to build strategies.  
@@ -24,6 +23,19 @@ Annualized Volatility: 21.8%
 Max Drawdown: -2.9%
 Sharpe Ratio: 3.54
 ```
+
+## Methodology
+- **Data**: 365 days SOL/USDT 1D OHLCV via Binance API
+- **Validation**: Time-series split, no look-ahead bias
+- **Features**: technical indicators + regime variables
+- **Models**: XGBoost classifier + statistical distributions
+- **Risk Management**: Volatility-based position sizing
+
+## Key Results
+- **Best Strategy Performance**: 79.2% return, 3.54 Sharpe ratio, -2.9% max drawdown
+- **XGBoost Model**: 68% accuracy predicting >5% moves
+- **Bayesian Analysis**: Identified volume spikes with 70.6% success rate (+38.9% lift)
+- **Risk Insights**: Volatility bursts end within 3 days (45% probability)
 
 # Project Steps
    
@@ -98,7 +110,7 @@ Key insights:
 ### Bayes Indicator Analysis
 
 * Calculates p(up|signal) vs baseline probability for binary trading indicators
-* Performance metrics: calculactes lift percentage, signal frequency, and statistical significance for each indicator
+* Performance metrics: calculates lift percentage, signal frequency, and statistical significance for each indicator
 
 * heatmaps for probability, lift %, and frequency vs performance scatter plots
 
@@ -307,17 +319,12 @@ High conviction signals paired with regime awareness showed promising trade-offs
 
 
 
+## Technologies Used
+Python, pandas, numpy, scikit-learn, XGBoost, SciPy, SHAP, matplotlib, seaborn
 
-
-
-
-
-Tools & Libraries:
-Python (pandas, numpy, scikit-learn, xgboost, scipy, statsmodels, shap, matplotlib, seaborn)
-
-*Caution:*
+*Caution:*      
 Backtest-Performance ≠ Live-Performance    
-Overfitting-Risik     
+Overfitting Risik     
 Transactioncost, Slippage not included in Calculations    
 
 ### Next Steps:
