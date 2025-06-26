@@ -1,11 +1,29 @@
+
+This repository is part of my data science & quant portfolio.  
+I am actively looking for opportunities in quantitative research, algorithmic trading, and data-driven strategy development.
+
 # Solana Trading Strategy: Statistical and Machine Learning Approach
  
 
 ## Overview
-This project is about statistical anlysis and trading strategies for the cryptocurrency Solana (SOL). It includes data acquisition, creating new features, tatistical analysis, probability modeling, feature engineering, and the development of rule-based and machine learning-based trading strategies.     
+This project is about statistical anlysis and trading strategies for the cryptocurrency Solana (SOL). It includes data acquisition, creating new features, statistical analysis, probability modeling, feature engineering, and the development of rule-based and machine learning-based trading strategies.     
 I fitted different probability distributions (Normal, Exponential, Gamma, Weibull, Poisson) and Bayes to daily return data.
 
 The goal is to explore the dynamics of daily SOL price movements and to build strategies.  
+
+Best found Strategy:
+
+```bash
+Initial Capital: $10,000
+Final Value: $17,918
+Total Return: 79.2%
+Number of Trades: 15
+Win Rate: 86.7%
+Avg Return per Trade: 4.04%
+Annualized Volatility: 21.8%
+Max Drawdown: -2.9%
+Sharpe Ratio: 3.54
+```
 
 # Project Steps
    
@@ -206,55 +224,123 @@ Extreme events cluster - implement cooling-off periods
 Breakout momentum fades - take profits early
 ```     
 
+### XGBOOST FEATURE ANALYSIS AND MODEL
+
+An XGBoost classifier to predict next day return bigger than 5% was trained. 
+
+```bash 
+y = (df['return'] > 0.05).astype(int)
+```
+
+After tuning hyperparameters, the results are:
+```bash 
+Accuracy:  0.6806
+Precision: 0.7308
+Recall:    0.5429
+F1 Score:  0.6230
+```
+
+![Accuracy](images/accuracy_xgboost.png)
+
+![Confusion Matrix](images/confusion_matrix_xgboost.png)
+
+Performed feature selection using SHAP values. The most important features for the model are:
+
+![Beeswarm Plot](images/beeswarm_xgboost.png)
+
+
+
+
 
 ### TRADING STRATEGY BASED ON INSIGHTS
 
+#### Simple Strategy Based on XGBOOST
 
-Fitted different probability distributions (Normal, Exponential, Gamma, Weibull, Poisson) to daily return data.
+Final Capital: $11899.60
+Total Return: 19.00%
+Long Signals: 15 | Exit Signals: 232
+Sharpe Ratio: 0.88
+Annualized Volatility: 22.96%
+Max Drawdown: -9.35%
+![Equity Curve](images/beeswarm_xgboost.png)
 
-Evaluated goodness-of-fit and tail behavior to identify suitable risk modeling approaches.
 
-Rule-Based Strategy
+The XGBoost-based long-only strategy yielded a 19.00% return over the 12-month period, with a Sharpe ratio of 0.88 and a maximum drawdown of -9.35%.
+Only 15 long entries were triggered, indicating low trading frequency.
+No transaction costs or slippage were included.
 
-Developed a simple volatility-based strategy using technical indicators (e.g., ATR, RSI, SMA).
 
-Simulated performance over the historical data.
 
-Machine Learning Model
 
-Engineered features including volatility regimes, momentum indicators, and market stress signals.
+### Regime Aware Strategy with Backtest on XGBOOST
 
-Trained an XGBoost classifier to predict next-day return direction.
 
-Performed feature selection using SHAP values.
+Signals: 15 entries identified, 232 exit signals processed
 
-Evaluated model performance and applied it in a backtesting framework.
+Indicators used: vol_regime, prediction_proba, rsi, breakout_high_7d
 
-Tools & Libraries
+Fixed Position Sizing (1.00x per trade)
+
+Return: +19.95%
+
+Sharpe Ratio: 3.27
+
+Max Drawdown: -9.83%
+
+Trades: 9
+
+Win Rate: 55.6%
+
+Avg Return per Trade: +2.30%
+
+### Volatility-Regime-Based Position Sizing (0.50x–1.00x)
+
+Return: +20.03%
+
+Sharpe Ratio: 3.21
+
+Max Drawdown: -7.71%
+
+Trades: 9
+
+Win Rate: 66.7%
+
+Avg Return per Trade: +2.45%
+
+Key Observations
+
+Volatility-adjusted sizing led to slightly better risk-adjusted performance and lower drawdown.
+
+High conviction signals (prediction_proba ≈ 0.79) paired with regime awareness showed promising trade-offs.
+
+Strategy adapts position sizes based on volatility regime:
+
+LOW_VOL → 1.00x
+
+MID_VOL → 0.75x
+
+HIGH_VOL → 0.50x
+
+
+
+
+
+Tools & Libraries:
 Python (pandas, numpy, scikit-learn, xgboost, scipy, statsmodels, shap, matplotlib, seaborn)
-
-Binance API
-
-Custom backtesting logic
-
-Key Insights
-Volatility was a significant driver of return dynamics in the considered period.
-
-Some non-Gaussian distributions (e.g., Gamma, Weibull) fit the empirical returns better than the Normal distribution.
-
-The XGBoost model showed predictive value with selected features, especially during regime changes and volume spikes.
-
-Solana Data:      
-[Link to Solana Dataset](https://drive.google.com/file/d/1voYH8gYeAXWd2MIM7w4720hSbXBrOpdc/view?usp=sharing) 
 
 Caution:
 Backtest-Performance ≠ Live-Performance
 Overfitting-Risik
 Transactioncost, Slippage not included in Calculations
 
-Next Steps
+Next Steps:
 Test Strategies in Live Performance.
 
-About
-This repository is part of my data science & quant portfolio. My background combines financial knowledge with statistical modeling and Python-based machine learning. I am actively looking for opportunities in quantitative research, algorithmic trading, and data-driven strategy development.
+Solana Data:      
+[Link to Solana Dataset](https://drive.google.com/file/d/1voYH8gYeAXWd2MIM7w4720hSbXBrOpdc/view?usp=sharing) 
+
+
+
+
+
 
