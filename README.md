@@ -315,13 +315,13 @@ High conviction signals paired with regime awareness showed promising trade-offs
 Tools & Libraries:
 Python (pandas, numpy, scikit-learn, xgboost, scipy, statsmodels, shap, matplotlib, seaborn)
 
-Caution:
-Backtest-Performance ≠ Live-Performance
-Overfitting-Risik
-Transactioncost, Slippage not included in Calculations
+*Caution:*
+Backtest-Performance ≠ Live-Performance    
+Overfitting-Risik     
+Transactioncost, Slippage not included in Calculations    
 
-Next Steps:
-Test Strategies in Live Performance.
+### Next Steps:
+Test Strategies in Live Performance and get rich or die trying.
 
 Solana Data:      
 [Link to Solana Dataset](https://drive.google.com/file/d/1voYH8gYeAXWd2MIM7w4720hSbXBrOpdc/view?usp=sharing) 
