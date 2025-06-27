@@ -177,82 +177,53 @@ Expected time between high vol periods: 5 days
 ### WEIBULL DURATION OF VOLATILITY   
      
 ```bash   
-============================================================
-COMPREHENSIVE WEIBULL ANALYSIS FOR SOL
-============================================================
-WEIBULL VOLATILITY BURST DURATION ANALYSIS
---------------------------------------------------
 Volatility bursts found: 23
-Average burst duration: 3.7 days
-Weibull shape parameter: 1.53
-Weibull scale parameter: 4.17
-Shape > 1: Increasing hazard rate (bursts tend to end quickly)
-Probability burst ends within 3 days: 45.4%
-Probability burst lasts >10 days: 2.2%
-TRADING INSIGHT: Volatility bursts typically end quickly
-   → Fade volatility spikes after 2-3 days
-
-WEIBULL EXTREME EVENT CLUSTERING ANALYSIS
---------------------------------------------------
-Extreme events found: 36
-Average time between extremes: 9.0 days
-Weibull shape: 0.95
-Weibull scale: 8.72
- CLUSTERING DETECTED: Extreme events come in clusters
-   → After one extreme event, expect another soon
-After extreme event, prob of another within 5 days: 44.6%
+Avg duration: 3.7 days
+Shape >1 → bursts end quickly
+45% probability of burst ending within 3 days
+→ Fade volatility after ~2 days
+    
+Extreme Event Clustering found: 36
+After one extreme move → 44.6% chance another follows in 5 days
 Probability of >30 days without extreme event: 4.0%
-
-WEIBULL BREAKOUT SUSTAINABILITY ANALYSIS
---------------------------------------------------
-Sustainable breakouts found: 11
-Average breakout duration: 2.5 days
-Weibull shape: 4.03
-Weibull scale: 2.80
-MOMENTUM FADES: Breakouts lose steam over time
-   → Take profits early in breakouts
-Probability breakout ends within 3 days: 73.2%
-Probability breakout extends >10 days: 0.0%
-Median breakout duration: 2.6 days
-STRATEGY: Set initial profit target around day 3
-
-============================================================
-WEIBULL INSIGHTS SUMMARY
-============================================================
-Volatility bursts typically end quickly - fade vol spikes
-Extreme events cluster - implement cooling-off periods
-Breakout momentum fades - take profits early
+→ Implement post extreme logic
+    
+Breakout Sustainability:
+Breakouts usually fade after ~3 days (73.2%)
+No breakout >10 days
+→ Set time-based take-profit at 2–3 days
+→ Take profits early in breakouts
 ```     
 
-### XGBOOST FEATURE ANALYSIS AND MODEL
 
-An XGBoost classifier to predict next day return bigger than 5% was trained. 
+### MACHINE LEARNING XGBOOST
+
+Predicted whether next day return exceeds 5%:
 
 ```bash 
 y = (df['return'] > 0.05).astype(int)
 ```
 
-After tuning hyperparameters, the results are:
+Results: 
 ```bash 
-Accuracy:  0.6806
-Precision: 0.7308
-Recall:    0.5429
-F1 Score:  0.6230
+Accuracy:  68.1%
+Precision: 73.1%
+Recall:    54.3%
+F1 Score:  62.3%
 ```
-
+    
 ![Accuracy](images/accuracy_xgboost.png)
 
 ![Confusion Matrix](images/confusion_matrix_xgboost.png)
 
-Performed feature selection using SHAP values. The most important features for the model are:
+Used SHAP values for feature selection and interpretability.
 
 ![Beeswarm Plot](images/beeswarm_xgboost.png)
+  
 
+  
 
-
-
-
-### TRADING STRATEGY BASED ON INSIGHTS
+## TRADING STRATEGY BASED ON INSIGHTS
 
 #### Simple Strategy Based on XGBOOST
 
