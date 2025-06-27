@@ -75,43 +75,37 @@ Volatility: 4.58%
 Sharpe (daily): 0.03, Sharpe (annualized): 0.60
 Skewness: 0.44 (right-skewed), Kurtosis: 3.78 (fat tails)
 ```
-
+        
 * Return distribution has fat tails → standard models underestimate risk
 * Volatility clusters over time → regime-aware strategies needed 
+     
 
-Calculated daily returns: 
+Calculated daily returns:    
+   
 ![Correlation Return](images/correlation_return.png)
 
 ![Return histogram, Q-Q plot, Box plot, Volatility clusters](images/return_distribution.png)
 
 Key insights:    
-
-* Q-Q Plot: 
 * Deviation from the red line at extremes confirms fat-tail behavior
 * Standard risk models will consistently underestimate actual risk exposure
-
-* Box Plot: 
 * Numerous outliers beyond typical range, both positive and negative
-
-* Volatility Clustering: 
 * Low volatility periods followed by high volatility spikes, particularly visible in early 2025
 * High volatility periods cluster together
 * Quiet phases (3-4%) alternating with turbulent periods (up to 9%)
 * Volatility forecasting models could be highly valuable
-
-* Strategic Implications:
-
+      
+* Strategic Implications:    
 * Dynamic position sizing based on current volatility regime
 * Volatility based strategy, vol (<3%): bigger positions, vol(>6%): smaller positions
 * Trading vol breakouts from <3% to >5% after that bigger movements tend to follow
 * Contrarian position after 8% move
 
     
-* Correlation:   
 
 ![Indicator Correlation](images/indicator_correlation.png)
-
-
+     
+     
 
 ### Bayes Indicator Analysis
 
@@ -140,8 +134,7 @@ P(Up-Day | vol_regime = 2) = 0.500 (n=86)
 
 ```
 
-* heatmaps for probability, lift %, and frequency vs performance scatter plots
-
+    
 ![Bayes Heatmap, Scatterplot](images/bayes.png)
 
 
@@ -150,9 +143,9 @@ P(Up-Day | vol_regime = 2) = 0.500 (n=86)
 * Extreme down: 60% success rate (+18% lift) -> could be weighted heavier in strategy but very rare
 * Volume expansion: 44.4% up probability (-12.6% lift), occurs 7.5% of time -> expanding volume without direction is bearish
 * Extreme up: 44.4% up probability (-12.6% lift), occurs 2.5% of time -> overbought conditions lead to pullbacks
-
-   
-   
+     
+       
+         
 
 ## Statistical Event Modeling
 
@@ -169,7 +162,8 @@ Probability of 2+ big moves in a week: 46.1%
 Probability of 4+ big moves in a week: 7.3%
 ```
 → Expect 1–2 big moves per week. Use for trade sizing
-   
+
+          
 ### EXPONENTIAL VOLATILITY ANALYSIS
   
 ```bash
@@ -177,10 +171,9 @@ Avg daily volatility: 4.20%
 P(volatility > 6.18%): 20.1%  
 Expected time between high vol periods: 5 days
 ```
-
 → Use volatility breakouts for entry signals and fade after spikes.
-
-
+    
+      
 ### WEIBULL DURATION OF VOLATILITY   
      
 ```bash   
