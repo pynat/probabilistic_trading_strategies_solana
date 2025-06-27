@@ -1,7 +1,7 @@
-# Solana Trading Strategy: Statistical and Machine Learning Approach
-
+# Probabilistic Trading Strategy for Solana
+    
 **🦄 Looking for Work:** Quantitative Research | Algorithmic Trading | Data-Driven Strategy Development | Data Science
-
+    
 ## Executive Summary
 This project applies statistical modeling and machine learning to analyze Solana (SOL) price behavior and design profitable trading strategies.
 Using probability theory, Bayesian indicator evaluation, and XGBoost modeling, I developed a strategy achieving:
@@ -37,19 +37,19 @@ Strategy development with XGBoost and rule based logic
 
 Volatility  and regime aware risk management  
 
-### Objective:
+### Objective
 Explore statistical properties of SOL daily returns and build robust, explainable trading strategies based on probabilistic signals and machine learning models.
 
 
 
-## Methodology
+### Methodology
 - **Data**: 365 days SOL/USDT 1D OHLCV via Binance API
 - **Validation**: Time series split, no look-ahead bias
 - **Features**: technical indicators + regime variables
 - **Models**: XGBoost classifier + statistical distributions
 - **Risk Management**: Volatility based position sizing
 
-## Key Results
+### Key Results
 - **Best Strategy Performance**: 79.2% return, 3.54 Sharpe ratio, -2.9% max drawdown
 - **XGBoost Model**: 68% accuracy predicting >5% moves
 - **Bayesian Analysis**: 70.6% success rate for volume spike signals (+38.9% lift)
@@ -235,7 +235,7 @@ Sharpe Ratio: 0.88
 Annualized Volatility: 22.96%    
 Max Drawdown: -9.35%   
 ```  
-![Equity Curve](images/equity_curve.png.png)
+![Equity Curve](images/equity_curve.png)
 
 
 The XGBoost-based long-only strategy yielded a 19.00% return over the 12-month period, with a Sharpe ratio of 0.88 and a maximum drawdown of -9.35%.
