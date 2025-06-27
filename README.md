@@ -1,16 +1,10 @@
-**🦄 Looking for Work:** Quantitative Research | Algorithmic Trading | Data-Driven Strategy Development | Data Science
 # Solana Trading Strategy: Statistical and Machine Learning Approach
 
+**🦄 Looking for Work:** Quantitative Research | Algorithmic Trading | Data-Driven Strategy Development | Data Science
+
 ## Executive Summary
-Quantitative analysis of Solana using statistical modeling and machine learning. Developed profitable trading strategy achieving **79.2% annual return** and **3.54 Sharpe ratio** through Probability and Bayesian indicator analysis.
-
-## Overview
-This project is about statistical analysis and trading strategies for the cryptocurrency Solana (SOL). It includes data acquisition, creating new features, statistical analysis, probability modeling, feature engineering, and the development of rule-based and machine learning-based trading strategies.     
-I fitted different probability distributions (Normal, Exponential, Gamma, Weibull, Poisson) and Bayes to daily return data.
-
-The goal is to explore the dynamics of daily SOL price movements and to build strategies.  
-
-Best found Strategy:
+This project applies statistical modeling and machine learning to analyze Solana (SOL) price behavior and design profitable trading strategies.
+Using probability theory, Bayesian indicator evaluation, and XGBoost modeling, I developed a strategy achieving:
 
 ```bash
 Initial Capital: $10,000
@@ -24,18 +18,42 @@ Max Drawdown: -2.9%
 Sharpe Ratio: 3.54
 ```
 
+
+## Project Overview
+
+This end-to-end pipeline covers:  
+
+Data collection and cleaning   
+
+Exploratory data analysis (EDA)   
+
+Feature engineering using statistical and volatility-based indicators   
+
+Probability distribution fitting (Normal, Exponential, Gamma, Weibull, Poisson)   
+  
+Bayesian indicator testing   
+
+Strategy development with XGBoost and rule based logic  
+
+Volatility  and regime aware risk management  
+
+### Objective:
+Explore statistical properties of SOL daily returns and build robust, explainable trading strategies based on probabilistic signals and machine learning models.
+
+
+
 ## Methodology
 - **Data**: 365 days SOL/USDT 1D OHLCV via Binance API
-- **Validation**: Time-series split, no look-ahead bias
+- **Validation**: Time series split, no look-ahead bias
 - **Features**: technical indicators + regime variables
 - **Models**: XGBoost classifier + statistical distributions
-- **Risk Management**: Volatility-based position sizing
+- **Risk Management**: Volatility based position sizing
 
 ## Key Results
 - **Best Strategy Performance**: 79.2% return, 3.54 Sharpe ratio, -2.9% max drawdown
 - **XGBoost Model**: 68% accuracy predicting >5% moves
-- **Bayesian Analysis**: Identified volume spikes with 70.6% success rate (+38.9% lift)
-- **Risk Insights**: Volatility bursts end within 3 days (45% probability)
+- **Bayesian Analysis**: 70.6% success rate for volume spike signals (+38.9% lift)
+- **Statistical Volatility Modelings**: Volatility bursts end within 3 days (45% probability), extreme events cluster, Breakouts lose steam quickly → take profits early
 
 # Project Steps
    
@@ -45,40 +63,28 @@ Sharpe Ratio: 3.54
 
 * Data Cleaning & Preprocessing 
 
-* Feature Engineering
+* Engineered features: returns, volatility, regime labels, technical indicators
 
 
 ### Exploratory Data Analysis (EDA)
 
 ```bash
-Mean return: 0.14
-Median return: 0.04
-Volatility: 4.58
-Skewness: 0.44
-Kurtosis: 3.78
-Daily Sharpe: 0.03
-Annual Sharpe: 0.60
-
-Q1 (25%): -2.52
-Q3 (75%): 2.63
-VaR 95%: -6.70%
-VaR 99%: -8.93%
+Return Distribution:
+Daily mean return: +0.14%
+Volatility: 4.58%
+Sharpe (daily): 0.03, Sharpe (annualized): 0.60
+Skewness: 0.44 (right-skewed), Kurtosis: 3.78 (fat tails)
 ```
-* SOL shows positive expected returns (0.14% daily) but with high volatility (4.58%)
-* Distribution is right-skewed with fat tails, more extreme moves
-* Significant downside risk: 5% chance of losing >6.7% in a single day
-* Decent risk-adjusted returns (Sharpe 0.60) 
-* Strong outliers
+
+* Return distribution has fat tails → standard models underestimate risk
+* Volatility clusters over time → regime-aware strategies needed 
 
 Calculated daily returns: 
 ![Correlation Return](images/correlation_return.png)
 
-![Return Distribution](images/return_distribution.png)
+![Return histogram, Q-Q plot, Box plot, Volatility clusters](images/return_distribution.png)
 
 Key insights:    
-
-* Returns show normal distribution in the center but with significant fat tails 
-* Extreme price movements occur much more frequently than normal distribution would predict
 
 * Q-Q Plot: 
 * Deviation from the red line at extremes confirms fat-tail behavior
@@ -109,15 +115,7 @@ Key insights:
 
 ### Bayes Indicator Analysis
 
-* Calculates p(up|signal) vs baseline probability for binary trading indicators
-* Performance metrics: calculates lift percentage, signal frequency, and statistical significance for each indicator
-
-* heatmaps for probability, lift %, and frequency vs performance scatter plots
-
-![Bayes](images/bayes.png)
-
-* signal combinations: tests combinations of best performing bullish/bearish indicators
-* trading signal generation: filters significant indicators based on minimum lift and frequency thresholds
+* Used Bayesian conditional probability to evaluate signal strength.
 
 ```bash
 === BAYES ANALYSIS FOR ALL INDICATORS ===
@@ -142,8 +140,12 @@ P(Up-Day | vol_regime = 2) = 0.500 (n=86)
 
 ```
 
-* Findings:
-* Indicators are predominantly BEARISH, most signal market weakness 
+* heatmaps for probability, lift %, and frequency vs performance scatter plots
+
+![Bayes Heatmap, Scatterplot](images/bayes.png)
+
+
+* Findings: 
 * Volume spike: 70.6% up probability (+38.9% lift), occurs 4.7% of time -> strong bullish indicator when unusual volume
 * Extreme down: 60% success rate (+18% lift) -> could be weighted heavier in strategy but very rare
 * Volume expansion: 44.4% up probability (-12.6% lift), occurs 7.5% of time -> expanding volume without direction is bearish
@@ -152,38 +154,31 @@ P(Up-Day | vol_regime = 2) = 0.500 (n=86)
    
    
 
+## Statistical Event Modeling
+
 ### POISSON EVENTS ANALYSIS  
    
-* How often do large moves happen:
+* How often do large moves < 7% occur:
 
 ```bash
-POISSON EVENTS ANALYSIS
-----------------------------------------
-Weeks analyzed: 52
-Total big moves (>7%): 81
+Total big moves (>7%): 81 (in 52 weeks)
 Average big moves per week: 1.56
 Probability of 0 big moves in a week: 21.1%
 Probability of exactly 1 big move: 32.8%
 Probability of 2+ big moves in a week: 46.1%
 Probability of 4+ big moves in a week: 7.3%
 ```
-
+→ Expect 1–2 big moves per week. Use for trade sizing
    
 ### EXPONENTIAL VOLATILITY ANALYSIS
-
-Expected daily fluctuation is 4.21%, with right-skewed distribution signaling most volatility is low, but large spikes do occur. Expected time between high-volatility days: ~5 trading days:   
-   
+  
 ```bash
-EXPONENTIAL VOLATILITY ANALYSIS
-----------------------------------------
-Volatility observations: 354
-Mean volatility: 4.20%
-Exponential lambda: 0.304
-High volatility threshold: 6.18%
-Probability of high volatility: 20.1%
-Probability of extreme volatility: 5.0%
-Expected days between high vol periods: 5.0
+Avg daily volatility: 4.20% 
+P(volatility > 6.18%): 20.1%  
+Expected time between high vol periods: 5 days
 ```
+
+→ Use volatility breakouts for entry signals and fade after spikes.
 
 
 ### WEIBULL DURATION OF VOLATILITY   
