@@ -22,20 +22,13 @@ Sharpe Ratio: 3.54
 ## Project Overview
 
 This end-to-end pipeline covers:  
-
-Data collection and cleaning   
-
-Exploratory data analysis (EDA)   
-
-Feature engineering using statistical and volatility-based indicators   
-
-Probability distribution fitting (Normal, Exponential, Gamma, Weibull, Poisson)   
-  
-Bayesian indicator testing   
-
-Strategy development with XGBoost and rule based logic  
-
-Volatility  and regime aware risk management  
+1. Data collection and cleaning   
+2. Exploratory data analysis (EDA)   
+3. Feature engineering using statistical and volatility-based indicators   
+4. Bayesian indicator testing 
+5. Probability distribution fitting (Exponential, Gamma, Weibull, Poisson)    
+6. Strategy development with XGBoost and rule based logic  
+7. Volatility  and regime aware risk management  
 
 ### Objective
 Explore statistical properties of SOL daily returns and build robust, explainable trading strategies based on probabilistic signals and machine learning models.
@@ -278,10 +271,10 @@ High conviction signals paired with regime awareness showed promising trade-offs
 
 
 
-## Technologies Used
+### Technologies Used
 Python, pandas, numpy, scikit-learn, XGBoost, SciPy, SHAP, matplotlib, seaborn
 
-*Caution:*      
+### Caution     
 Backtest-Performance ≠ Live-Performance    
 Overfitting Risik     
 Transactioncost, Slippage not included in Calculations    
