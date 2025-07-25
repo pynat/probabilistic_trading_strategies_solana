@@ -160,12 +160,12 @@ P(Up-Day | vol_regime = 2) = 0.500 (n=86)
 - No breakout exceeds maximum sustainable period
 → Set time-based take-profit at derived intervals
 → Take profits early in breakouts based on statistical analysis
-    
+      
 
+   
+   
 
-
-
-### Regime Aware Signal Filtering (Probabilistic Layering) 
+**Regime Aware Signal Filtering**
    
 To enhance signal robustness and avoid misleading entries in unstable market conditions, I extended the Bayesian indicator analysis by incorporating volatility regime awareness.
 
@@ -182,7 +182,7 @@ Based on these findings:
 
 -> Regime-specific signal filtering   
 
-> Volatility-aware position sizing   
+-> Volatility-aware position sizing   
 
 -> Dynamic trade frequency adaptation   
 
@@ -204,7 +204,9 @@ Predicted whether next day return exceeds threshold:
 ```python
 y = (df['return'] > RETURN_THRESHOLD).astype(int)
 ```
-
+   
+![Confusion Matrix](images/confusion_matrix_xgboost.png)    
+  
 ```bash 
 Results:
 Accuracy: 68.1%
@@ -215,8 +217,7 @@ F1 Score: 62.3%
 
 
 ![Accuracy](images/accuracy_xgboost.png)    
-
-![Confusion Matrix](images/confusion_matrix_xgboost.png)     
+  
 
 
 Used SHAP values for feature selection and interpretability.  
@@ -232,9 +233,11 @@ Annualized Volatility: 22.96%
 Max Drawdown: -9.35% 
 ```  
 
+The XGBoost-based long-only strategy yielded a 19.00% return over the 12-month period, with a Sharpe ratio of 0.88 and a maximum drawdown of -9.35%. Only 15 long entries were triggered, indicating low trading frequency. No transaction costs or slippage were included.   
+
 ![Equity Curve](images/equity_curve.png)  
 
-The XGBoost-based long-only strategy yielded a 19.00% return over the 12-month period, with a Sharpe ratio of 0.88 and a maximum drawdown of -9.35%. Only 15 long entries were triggered, indicating low trading frequency. No transaction costs or slippage were included.
+
 
 ### Regime Aware Strategy with Backtest on XGBoost
 ```bash 
