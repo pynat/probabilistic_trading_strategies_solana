@@ -58,6 +58,12 @@ Engineered features: returns, volatility, regime labels, technical indicators
 - Return distribution has fat tails → standard models underestimate risk
 - Volatility clusters over time → regime-aware strategies needed
 
+Calculated daily returns:    
+   
+![Correlation Return](images/correlation_return.png)   
+
+![Return histogram, Q-Q plot, Box plot, Volatility clusters](images/return_distribution.png)    
+
 **Key insights:**
 - Deviation from normal distribution at extremes confirms fat-tail behavior
 - Standard risk models will consistently underestimate actual risk exposure
@@ -72,6 +78,9 @@ Engineered features: returns, volatility, regime labels, technical indicators
 - Volatility based strategy: vol (<LOW_VOL_THRESHOLD): bigger positions, vol(>HIGH_VOL_THRESHOLD): smaller positions
 - Trading vol breakouts from <BREAKOUT_LOW> to >BREAKOUT_HIGH after that bigger movements tend to follow
 - Contrarian position after EXTREME_MOVE_THRESHOLD
+
+  
+![Indicator Correlation](images/indicator_correlation.png)   
 
 ### Bayes Indicator Analysis
 Used Bayesian conditional probability to evaluate signal strength.
@@ -97,6 +106,9 @@ P(Up-Day | vol_regime = 1) = 0.471 (n=187)
 P(Up-Day | vol_regime = 2) = 0.500 (n=86)
 ```
 
+![Bayes Heatmap, Scatterplot](images/bayes.png)   
+   
+      
 **Findings:**
 - **Volume spike:** 70.6% up probability (+38.9% lift), occurs 4.7% of time → strong bullish indicator when unusual volume detected
 - **Extreme down:** 60% success rate (+18% lift) → could be weighted heavier in strategy but very rare
@@ -152,7 +164,14 @@ y = (df['return'] > RETURN_THRESHOLD).astype(int)
 - **Recall:** 54.3%
 - **F1 Score:** 62.3%
 
-Used SHAP values for feature selection and interpretability.
+
+![Accuracy](images/accuracy_xgboost.png)    
+
+![Confusion Matrix](images/confusion_matrix_xgboost.png)     
+
+
+Used SHAP values for feature selection and interpretability.  
+![Beeswarm Plot](images/beeswarm_xgboost.png)   
 
 ## Trading Strategy Based on Insights
 
@@ -163,6 +182,8 @@ Used SHAP values for feature selection and interpretability.
 - **Sharpe Ratio:** 0.88    
 - **Annualized Volatility:** 22.96%    
 - **Max Drawdown:** -9.35%   
+
+![Equity Curve](images/equity_curve.png)  
 
 The XGBoost-based long-only strategy yielded a 19.00% return over the 12-month period, with a Sharpe ratio of 0.88 and a maximum drawdown of -9.35%. Only 15 long entries were triggered, indicating low trading frequency. No transaction costs or slippage were included.
 
@@ -200,4 +221,4 @@ Python, pandas, numpy, scikit-learn, XGBoost, SciPy, SHAP, matplotlib, seaborn
 Test strategies in live performance with proper risk management and position sizing protocols.
 
 ---
-*Solana Data: [Link to Solana Dataset]*
+

@@ -23,3 +23,6 @@ venv/
 # Other
 *.log
 *.csv
+
+# Model
+*.pkl
