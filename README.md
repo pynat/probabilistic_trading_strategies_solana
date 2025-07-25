@@ -57,7 +57,7 @@ Volatility: 4.58%
 Sharpe (daily): 0.03, Sharpe (annualized): 0.60
 Skewness: 0.44 (right-skewed), Kurtosis: 3.78 (fat tails)
 ```
-Return distribution has fat tails → standard models underestimate risk
+Return distribution has fat tails → standard models underestimate risk   
 Volatility clusters over time → regime-aware strategies needed
 
 Calculated daily returns:    
@@ -83,7 +83,9 @@ Calculated daily returns:
 
   
 ![Indicator Correlation](images/indicator_correlation.png)   
-
+    
+         
+              
 ## Bayes Indicator Analysis
 Used Bayesian conditional probability to evaluate signal strength.
 
@@ -116,7 +118,9 @@ P(Up-Day | vol_regime = 2) = 0.500 (n=86)
 - **Extreme down:** 60% success rate (+18% lift) → could be weighted heavier in strategy but very rare
 - **Volume expansion:** 44.4% up probability (-12.6% lift), occurs 7.5% of time → expanding volume without direction is bearish
 - **Extreme up:** 44.4% up probability (-12.6% lift), occurs 2.5% of time → overbought conditions lead to pullbacks
-
+    
+        
+            
 ## Statistical Event Modeling
 
 **POISSON EVENTS ANALYSIS**
@@ -127,32 +131,73 @@ P(Up-Day | vol_regime = 2) = 0.500 (n=86)
 - Probability of 2+ big moves in a week: ~46%
 - Probability of 4+ big moves in a week: ~7%
 → Expect optimal frequency for trade sizing
-
+    
+        
 **EXPONENTIAL VOLATILITY ANALYSIS**
 - Avg daily volatility: 4.20% 
 - P(volatility > VOL_THRESHOLD): ~20%  
 - Expected time between high vol periods: OPTIMAL_PERIOD days
 → Use volatility breakouts for entry signals and fade after spikes
-
+    
+        
 **WEIBULL DURATION OF VOLATILITY**
 - Volatility bursts found: 23
 - Avg duration: MEAN_DURATION days
 - Shape >1 → bursts end quickly
 - Statistical probability of burst ending within optimal timeframe
 → Fade volatility after statistically derived period
-    
+
+            
 **Extreme Event Clustering**
 - Extreme Event Clustering found: 36
 - After one extreme move → significant clustering probability within optimal window
 - Probability of extended periods without extreme events: low
 → Implement post-extreme logic
-    
-**Breakout Sustainability:**
+
+           
+**Breakout Sustainability**
 - Breakouts typically fade after statistically optimal timeframe
 - No breakout exceeds maximum sustainable period
 → Set time-based take-profit at derived intervals
 → Take profits early in breakouts based on statistical analysis
+    
 
+
+
+
+### Regime Aware Signal Filtering (Probabilistic Layering) 
+   
+To enhance signal robustness and avoid misleading entries in unstable market conditions, I extended the Bayesian indicator analysis by incorporating volatility regime awareness.
+
+The dataset was segmented into three volatility regimes (low, medium, high) using statistically derived thresholds based on rolling volatility metrics.
+For each regime, conditional probabilities and signal performance metrics were recalculated.
+
+**Findings On Certain Signals:**
+
+- Strong directional reliability only in specific volatility environments  
+
+- Become unreliable or even contrarian in others   
+
+Based on these findings:
+
+-> Regime-specific signal filtering   
+
+> Volatility-aware position sizing   
+
+-> Dynamic trade frequency adaptation   
+
+Strategic Impact:
+- Probabilistic regime-layering led to a significant performance improvement, with higher Sharpe ratio, reduced drawdown, and increased win rate    
+
+- Instead of using fixed logic, the strategy adapts to market conditions by weighting signals based on contextual statistical strength   
+
+
+Note: Due to the proprietary nature of this approach, specific signal-regime relationships are not disclosed.
+
+
+
+
+            
 ## Machine Learning XGBoost Strategies
 Predicted whether next day return exceeds threshold:
 
