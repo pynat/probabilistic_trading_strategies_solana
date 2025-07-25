@@ -20,6 +20,6 @@ venv/
 # VS Code
 .vscode/
 
-# Sonstiges
+# Other
 *.log
-.csv
+*.csv
