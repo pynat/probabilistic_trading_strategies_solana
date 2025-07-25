@@ -51,12 +51,14 @@ Engineered features: returns, volatility, regime labels, technical indicators
 ### Exploratory Data Analysis (EDA)
 
 **Return Distribution:**
-- Daily mean return: +0.14%
-- Volatility: 4.58%
-- Sharpe (daily): 0.03, Sharpe (annualized): 0.60
-- Skewness: 0.44 (right-skewed), Kurtosis: 3.78 (fat tails)
-- Return distribution has fat tails → standard models underestimate risk
-- Volatility clusters over time → regime-aware strategies needed
+```bash 
+Daily mean return: +0.14%
+Volatility: 4.58%
+Sharpe (daily): 0.03, Sharpe (annualized): 0.60
+Skewness: 0.44 (right-skewed), Kurtosis: 3.78 (fat tails)
+Return distribution has fat tails → standard models underestimate risk
+Volatility clusters over time → regime-aware strategies needed
+```
 
 Calculated daily returns:    
    
@@ -158,11 +160,13 @@ Predicted whether next day return exceeds threshold:
 y = (df['return'] > RETURN_THRESHOLD).astype(int)
 ```
 
-**Results:**
-- **Accuracy:** 68.1%
-- **Precision:** 73.1%
-- **Recall:** 54.3%
-- **F1 Score:** 62.3%
+```bash 
+Results:
+Accuracy: 68.1%
+Precision: 73.1%
+Recall: 54.3%
+F1 Score: 62.3%
+```
 
 
 ![Accuracy](images/accuracy_xgboost.png)    
@@ -176,34 +180,39 @@ Used SHAP values for feature selection and interpretability.
 ## Trading Strategy Based on Insights
 
 ### Simple Strategy Based on XGBoost
-- **Final Capital:** $11,899.60    
-- **Total Return:** 19.00%     
-- **Long Signals:** 15 | Exit Signals: 232     
-- **Sharpe Ratio:** 0.88    
-- **Annualized Volatility:** 22.96%    
-- **Max Drawdown:** -9.35%   
+```bash Final Capital:** $11,899.60    
+Total Return: 19.00%     
+Long Signals: 15 | Exit Signals: 232     
+Sharpe Ratio: 0.88    
+Annualized Volatility: 22.96%    
+Max Drawdown: -9.35% 
+```  
 
 ![Equity Curve](images/equity_curve.png)  
 
 The XGBoost-based long-only strategy yielded a 19.00% return over the 12-month period, with a Sharpe ratio of 0.88 and a maximum drawdown of -9.35%. Only 15 long entries were triggered, indicating low trading frequency. No transaction costs or slippage were included.
 
 ### Regime Aware Strategy with Backtest on XGBoost
-- **Return:** +19.95%
-- **Sharpe Ratio:** 3.27
-- **Max Drawdown:** -9.83%
-- **Trades:** 9
-- **Win Rate:** 55.6%
-- **Avg Return per Trade:** +2.30%
+```bash 
+Return: +19.95%
+Sharpe Ratio: 3.27
+Max Drawdown: -9.83%
+Trades: 9
+Win Rate: 55.6%
+Avg Return per Trade: +2.30%
+```
 
 Signals: 15 entries identified, 232 exit signals processed. Indicators used: vol_regime, prediction_proba, rsi, breakout_high_7d. Fixed Position Sizing (POSITION_SIZE per trade)
 
 ### Volatility-Regime-Based Position Sizing
-- **Return:** +20.03%
-- **Sharpe Ratio:** 3.21
-- **Max Drawdown:** -7.71%
-- **Trades:** 9
-- **Win Rate:** 66.7%
-- **Avg Return per Trade:** +2.45%
+```bash 
+Return: +20.03%
+Sharpe Ratio: 3.21
+Max Drawdown: -7.71%
+Trades: 9
+Win Rate: 66.7%
+Avg Return per Trade: +2.45%
+```
 
 Volatility-adjusted sizing led to slightly better risk-adjusted performance and lower drawdown.
 
