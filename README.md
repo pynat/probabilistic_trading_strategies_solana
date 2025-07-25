@@ -216,7 +216,9 @@ F1 Score: 62.3%
 ```
 
 
-![Accuracy](images/accuracy_xgboost.png)    
+![Accuracy](images/accuracy_xgboost.png)  
+
+High accuracy 68.1% and high precision (73.1%) for positive class predictions, but recall (54.3%) shows the need for improvement, especially in correctly identifying Class 1 signals.
   
 
 
