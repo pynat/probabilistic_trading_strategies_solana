@@ -56,9 +56,9 @@ Daily mean return: +0.14%
 Volatility: 4.58%
 Sharpe (daily): 0.03, Sharpe (annualized): 0.60
 Skewness: 0.44 (right-skewed), Kurtosis: 3.78 (fat tails)
+```
 Return distribution has fat tails → standard models underestimate risk
 Volatility clusters over time → regime-aware strategies needed
-```
 
 Calculated daily returns:    
    
@@ -84,7 +84,7 @@ Calculated daily returns:
   
 ![Indicator Correlation](images/indicator_correlation.png)   
 
-### Bayes Indicator Analysis
+## Bayes Indicator Analysis
 Used Bayesian conditional probability to evaluate signal strength.
 
 ```
@@ -117,7 +117,7 @@ P(Up-Day | vol_regime = 2) = 0.500 (n=86)
 - **Volume expansion:** 44.4% up probability (-12.6% lift), occurs 7.5% of time → expanding volume without direction is bearish
 - **Extreme up:** 44.4% up probability (-12.6% lift), occurs 2.5% of time → overbought conditions lead to pullbacks
 
-### Statistical Event Modeling
+## Statistical Event Modeling
 
 **POISSON EVENTS ANALYSIS**
 - Total big moves (>MOVE_THRESHOLD%): N events (in 52 weeks)
@@ -153,7 +153,7 @@ P(Up-Day | vol_regime = 2) = 0.500 (n=86)
 → Set time-based take-profit at derived intervals
 → Take profits early in breakouts based on statistical analysis
 
-### Machine Learning XGBoost
+## Machine Learning XGBoost Strategies
 Predicted whether next day return exceeds threshold:
 
 ```python
@@ -177,9 +177,8 @@ F1 Score: 62.3%
 Used SHAP values for feature selection and interpretability.  
 ![Beeswarm Plot](images/beeswarm_xgboost.png)   
 
-## Trading Strategy Based on Insights
 
-### Simple Strategy Based on XGBoost
+### Simple Strategy Based on XGBoost Insights
 ```bash Final Capital:** $11,899.60    
 Total Return: 19.00%     
 Long Signals: 15 | Exit Signals: 232     
